@@ -10,24 +10,24 @@ import kotlinx.coroutines.flow.asStateFlow
 class AppUtileriaViewModel : ViewModel() {
 
     // Guarda el texto que el usuario escribe en el campo de la cuenta
-    private val _totalCuenta = MutableStateFlow("")
+    private var _totalCuenta = MutableStateFlow("")
     val totalCuenta: StateFlow<String> = _totalCuenta.asStateFlow()
 
     // Va de 0 a 30.
-    private val _porcentajePropina = MutableStateFlow(10)
+    private var _porcentajePropina = MutableStateFlow(10)
     val porcentajePropina: StateFlow<Int> = _porcentajePropina.asStateFlow()
 
-    private val _numeroPersonas = MutableStateFlow(1)
+    private var _numeroPersonas = MutableStateFlow(1)
     val numeroPersonas: StateFlow<Int> = _numeroPersonas.asStateFlow()
 
-    private val _montoPropina = MutableStateFlow(0)
+    private var _montoPropina = MutableStateFlow(0)
     val montoPropina: StateFlow<Int> = _montoPropina.asStateFlow()
 
     // guarda (cuenta + propina, redondeado a entero).
-    private val _totalPagar = MutableStateFlow(0)
+    private var _totalPagar = MutableStateFlow(0)
     val totalPagar: StateFlow<Int> = _totalPagar.asStateFlow()
 
-    private val _totalPorPersona = MutableStateFlow(0)
+    private var _totalPorPersona = MutableStateFlow(0)
     val totalPorPersona: StateFlow<Int> = _totalPorPersona.asStateFlow()
 
 

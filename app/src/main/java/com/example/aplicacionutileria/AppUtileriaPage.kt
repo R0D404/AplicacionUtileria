@@ -1,8 +1,10 @@
 package com.example.aplicacionutileria
 
-import android.R
-import android.widget.Button
-import android.widget.Space
+//que se vea bien
+import androidx.compose.foundation.shape.RoundedCornerShape
+
+
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,7 +20,6 @@ import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -33,7 +34,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -70,7 +70,7 @@ fun AppUtileriaPage(viewModel: AppUtileriaViewModel = viewModel()) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp)
+                .padding(35.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         )
@@ -81,15 +81,17 @@ fun AppUtileriaPage(viewModel: AppUtileriaViewModel = viewModel()) {
                 onValueChange ={ nuevoTexto-> viewModel.cambiarTotalCuenta(nuevoTexto)},
                 label = {Text ("Total de la cuenta $")},
                 placeholder = {Text("0")},
+                prefix = { Text("$ ") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
+                shape = RoundedCornerShape(15.dp),
                 modifier = Modifier.fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(
                 text="Propina: $porcentajePropina%",
-                fontSize = 20.sp,
+                fontSize = 25.sp,
             )
             Slider(
                 value=porcentajePropina.toFloat(),
@@ -98,7 +100,7 @@ fun AppUtileriaPage(viewModel: AppUtileriaViewModel = viewModel()) {
                 steps = 29,
                 modifier=Modifier.fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(
                 text="Dividir Cuenta",
@@ -110,31 +112,25 @@ fun AppUtileriaPage(viewModel: AppUtileriaViewModel = viewModel()) {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
                 ) {
-                Button(onClick = {viewModel.decrementarPersonas()},
-                    enabled= numeroPersonas > 1) {
-                    Text(
-                        text="-",
-                        fontSize = 40.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+                BotonContador(
+                    simbolo = "-",
+                    habilitado = numeroPersonas > 1,
+                    alHacerClic = { viewModel.decrementarPersonas() }
+                )
                 Spacer(modifier = Modifier.width(24.dp))
 
                 Text(
-                    text = "$numeroPersonas ${if(numeroPersonas==1) "persona" else "personas"}",
-                    fontSize = 20.sp,
+                    text = "$numeroPersonas ${if (numeroPersonas == 1) "persona" else "personas"}",
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Medium
                 )
-                Spacer(modifier=Modifier.width(24.dp))
+                Spacer(modifier = Modifier.width(24.dp))
 
-                Button(onClick = {viewModel.incrementarPersonas()},
-                    enabled = numeroPersonas < 10
-                ) {
-                    Text( text="+",
-                        fontSize = 40.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+                BotonContador(
+                    simbolo="+",
+                    habilitado= numeroPersonas<10,
+                    alHacerClic = {viewModel.incrementarPersonas()}
+                )
 
             }
             Spacer(modifier = Modifier.height(24.dp))
@@ -182,5 +178,22 @@ fun AppUtileriaPage(viewModel: AppUtileriaViewModel = viewModel()) {
 
 
         }
+    }
+}
+@Composable
+fun BotonContador(
+    simbolo: String,
+    habilitado: Boolean,
+    alHacerClic: () -> Unit
+) {
+    Button(
+        onClick = alHacerClic,
+        enabled = habilitado
+    ) {
+        Text(
+            text = simbolo,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
