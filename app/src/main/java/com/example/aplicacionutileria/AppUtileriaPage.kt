@@ -1,5 +1,6 @@
 package com.example.aplicacionutileria
 
+import android.R
 import android.widget.Button
 import android.widget.Space
 import androidx.compose.foundation.layout.Arrangement
@@ -88,7 +89,7 @@ fun AppUtileriaPage(viewModel: AppUtileriaViewModel = viewModel()) {
 
             Text(
                 text="Propina: $porcentajePropina%",
-                fontSize = 18.sp,
+                fontSize = 20.sp,
             )
             Slider(
                 value=porcentajePropina.toFloat(),
@@ -101,7 +102,7 @@ fun AppUtileriaPage(viewModel: AppUtileriaViewModel = viewModel()) {
 
             Text(
                 text="Dividir Cuenta",
-                fontSize = 18.sp,
+                fontSize = 25.sp,
             )
             Spacer(modifier= Modifier.height(10.dp))
             Row(
@@ -110,29 +111,70 @@ fun AppUtileriaPage(viewModel: AppUtileriaViewModel = viewModel()) {
                 verticalAlignment = Alignment.CenterVertically
                 ) {
                 Button(onClick = {viewModel.decrementarPersonas()},
-                    enabled= numeroPersonas>1) {
+                    enabled= numeroPersonas > 1) {
                     Text(
                         text="-",
-                        fontSize = 40.sp
+                        fontSize = 40.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Spacer(modifier = Modifier.width(24.dp))
+
+                Text(
+                    text = "$numeroPersonas ${if(numeroPersonas==1) "persona" else "personas"}",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Medium
+                )
+                Spacer(modifier=Modifier.width(24.dp))
+
+                Button(onClick = {viewModel.incrementarPersonas()},
+                    enabled = numeroPersonas < 10
+                ) {
+                    Text( text="+",
+                        fontSize = 40.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+            }
+            Spacer(modifier = Modifier.height(24.dp))
+
+
+
+            Card(
+                modifier= Modifier.fillMaxWidth(),
+
+            ) {
+                Column(
+                    modifier=Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    Text(
+                        text = "Resumen de la cuenta",
+                        fontSize = 20.sp
+                    )
+                    Text(
+                        text="Propina total:$ $montoPropina",
+                        fontSize = 16.sp
+                    )
+                    Text(
+                        text="Total a pagar =$ $totalPagar",
+                        fontSize = 18.sp
+                    )
+                    Text(
+                        text = "Cada persona paga: $$totalPorPersona",
+                        fontSize = 20.sp
                     )
                 }
             }
-            Spacer(modifier = Modifier.width(24.dp))
-            Text(
-                text = "$numeroPersonas ${if(numeroPersonas==1) "persona" else "personas"}",
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Medium
-            )
-            Spacer(modifier=Modifier.width(24.dp))
-            Button(onClick = {viewModel.incrementarPersonas()},
-                enabled = numeroPersonas > 10
-                ) {
-                Text( text="+",
-                    fontSize = 40.sp
-                )
-            }
-            Spacer(modifier = Modifier.width(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
+            OutlinedButton(
+                onClick = { viewModel.limpiar() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Limpiar campos")
+            }
 
 
 
