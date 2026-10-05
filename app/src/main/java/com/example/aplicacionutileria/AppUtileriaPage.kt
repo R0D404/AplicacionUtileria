@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -30,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -47,6 +49,9 @@ fun AppUtileriaPage(viewModel: AppUtileriaViewModel = viewModel()) {
     val montoPropina by viewModel.montoPropina.collectAsStateWithLifecycle()
     val totalPagar by viewModel.totalPagar.collectAsStateWithLifecycle()
     val totalPorPersona by viewModel.totalPorPersona.collectAsStateWithLifecycle()
+
+    val nombre by viewModel.name.collectAsStateWithLifecycle()
+    val matricula by viewModel.matricula.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -73,7 +78,7 @@ fun AppUtileriaPage(viewModel: AppUtileriaViewModel = viewModel()) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier=Modifier.height(10.dp))
-            // 1. Campo de texto estilizado para ingresar la cuenta
+
             OutlinedTextField(
                 value = totalCuenta,
                 onValueChange = { nuevoTexto -> viewModel.cambiarTotalCuenta(nuevoTexto) },
@@ -88,7 +93,6 @@ fun AppUtileriaPage(viewModel: AppUtileriaViewModel = viewModel()) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // 2. Encabezado y Slider para seleccionar la propina
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -233,7 +237,6 @@ fun AppUtileriaPage(viewModel: AppUtileriaViewModel = viewModel()) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // 5. Boton para reiniciar valores
             OutlinedButton(
                 onClick = { viewModel.limpiar() },
                 shape = RoundedCornerShape(12.dp),
@@ -241,12 +244,19 @@ fun AppUtileriaPage(viewModel: AppUtileriaViewModel = viewModel()) {
             ) {
                 Text("Restablecer valores", fontSize = 16.sp)
             }
+            Spacer(modifier= Modifier.height(24.dp))
+
+            profile(
+                nombre = nombre,
+                matricula = matricula,
+                alPresionarBoton = { viewModel.mostrarInformacion() }
+            )
         }
     }
 }
 
 
-// Composable reutilizable 1: Boton con estilo moderno para + y -
+
 @Composable
 fun BotonContador(
     simbolo: String,
@@ -266,7 +276,6 @@ fun BotonContador(
     }
 }
 
-// Composable reutilizable 2: Fila para alinear concepto y monto en el resumen
 @Composable
 fun FilaResumen(
     etiqueta: String,
@@ -285,5 +294,28 @@ fun FilaResumen(
             fontSize = 15.sp,
             fontWeight = FontWeight.SemiBold
         )
+    }
+}
+
+@Composable
+fun profile(
+    nombre: String,
+    matricula: String,
+    alPresionarBoton: () -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+
+            Text(text = nombre)
+            Text(text = matricula)
+
+            Button(onClick = alPresionarBoton) {
+                Text(text = "Mostrar Informacion")
+            }
+        }
     }
 }

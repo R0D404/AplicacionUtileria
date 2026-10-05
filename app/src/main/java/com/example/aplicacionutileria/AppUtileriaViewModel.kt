@@ -1,5 +1,6 @@
 package com.example.aplicacionutileria
 
+import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,6 +30,16 @@ class AppUtileriaViewModel : ViewModel() {
 
     private var _totalPorPersona = MutableStateFlow(0)
     val totalPorPersona: StateFlow<Int> = _totalPorPersona.asStateFlow()
+
+    private var _name= MutableStateFlow("")
+    val name: StateFlow<String> = _name.asStateFlow()
+    private var _matricula = MutableStateFlow("")
+    val matricula: StateFlow<String> = _matricula.asStateFlow()
+
+    fun mostrarInformacion(){
+        _name.value = "Rodrigo Gonzalez Morales"
+        _matricula.value = "253696"
+    }
 
 
     fun cambiarTotalCuenta(nuevoTotal: String) {
@@ -79,7 +90,7 @@ class AppUtileriaViewModel : ViewModel() {
         _totalPorPersona.value = porPersona
     }
 
-    // Funcion opcional para restablecer todos los valores al inicio.
+
     fun limpiar() {
         _totalCuenta.value = ""
         _porcentajePropina.value = 10
@@ -87,5 +98,8 @@ class AppUtileriaViewModel : ViewModel() {
         _montoPropina.value = 0
         _totalPagar.value = 0
         _totalPorPersona.value = 0
-    }
+        _name.value = ""
+        _matricula.value =""
+        }
+
 }
